@@ -1,0 +1,6 @@
+ALTER TABLE
+    "tasks"
+ALTER COLUMN
+    "date_created"
+SET
+    DATA TYPE TIMESTAMP WITH TIME ZONE;
