@@ -5,12 +5,22 @@ import { db } from "./db/";
 import { tasksTable } from "./db/schemas/";
 import { eq } from "drizzle-orm";
 import { CreateTaskSchema, EditTaskSchema } from "./dto";
+import { getServerSession } from "next-auth";
+import { authOptions } from "./auth/auth";
 
 export async function getTasks() {
+  const session = await getServerSession(authOptions);
+
+  if (!session?.user?.id) {
+    console.warn("No session found or user is not authenticated.");
+    return [];
+  }
+
   try {
     const tasks = await db
       .select()
       .from(tasksTable)
+      .where(eq(tasksTable.userId, session?.user.id))
       .orderBy(tasksTable.dateCreated);
     return tasks;
   } catch (error) {
@@ -20,12 +30,17 @@ export async function getTasks() {
 }
 
 export const createTask = async (task: CreateTaskSchema) => {
+  const session = await getServerSession(authOptions);
+  if (!session?.user?.id) {
+    console.warn("No session found or user is not authenticated.");
+    return [];
+  }
   try {
     const createdTasks = await db
       .insert(tasksTable)
       .values({
         ...task,
-        userId: "15a216ed-d557-4b55-8905-e83225f770f0",
+        userId: session.user.id,
       })
       .returning();
 

@@ -1,3 +1,4 @@
 {
-  "cSpell.words": ["pgadmin", "Taskify"]
+  "cSpell.words": ["pgadmin", "Taskify"],
+  "typescript.tsdk": "node_modules/typescript/lib"
 }
