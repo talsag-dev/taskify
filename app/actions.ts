@@ -2,26 +2,39 @@
 
 import { revalidatePath } from "next/cache";
 import { db } from "./db/";
-import { tasksTable } from "./db/schemas/";
-import { eq } from "drizzle-orm";
+import { Priority, tasksTable } from "./db/schemas/";
+import { and, eq, inArray, not } from "drizzle-orm";
 import { CreateTaskSchema, EditTaskSchema } from "./dto";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./auth/auth";
+import { TaskFilters } from "./hooks/useFilters";
 
-export async function getTasks() {
+export async function getTasks(filters: TaskFilters = {}) {
   const session = await getServerSession(authOptions);
 
   if (!session?.user?.id) {
     console.warn("No session found or user is not authenticated.");
     return [];
   }
-
   try {
+    const validPriorities = filters.priorities
+      ?.map((p) => Priority[p.toUpperCase() as keyof typeof Priority])
+      .filter((p): p is Priority => p !== undefined);
+
+    const conditions = [
+      eq(tasksTable.userId, session.user.id),
+      validPriorities?.length
+        ? inArray(tasksTable.priority, validPriorities)
+        : undefined,
+      filters.hideCompleted ? not(eq(tasksTable.completed, true)) : undefined,
+    ].filter(Boolean);
+
     const tasks = await db
       .select()
       .from(tasksTable)
-      .where(eq(tasksTable.userId, session?.user.id))
+      .where(and(...conditions))
       .orderBy(tasksTable.dateCreated);
+
     return tasks;
   } catch (error) {
     console.error("Error fetching tasks:", error);
