@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { Priority } from "@/app/db/schemas";
+import { Priority } from "../db/schemas";
 
 export const createTaskSchema = z.object({
   title: z.string().min(1, "Title is required"),

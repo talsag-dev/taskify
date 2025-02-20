@@ -1,9 +1,8 @@
 "use client";
 
-import { useDialog } from "@/app/hooks";
+import { useDialog, useFilter } from "../../hooks/";
 import { AddTaskDialog } from "../add-task-dialog";
 import { FilterIcon } from "lucide-react";
-import { useFilter } from "@/app/hooks/useFilters";
 import { FilterDialogContent } from "../filter-dialog/filter-dialog";
 
 export const TasksHeader: React.FC = () => {

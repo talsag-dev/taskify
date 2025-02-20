@@ -1,8 +1,8 @@
 import { Dialog } from "../dialog";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { createTask } from "@/app/actions";
-import { createTaskSchema, CreateTaskSchema } from "@/app/dto";
+import { createTask } from "../../actions";
+import { createTaskSchema, CreateTaskSchema } from "../../dto";
 
 export const AddTaskDialog: React.FC<{
   isDialogOpen: boolean;

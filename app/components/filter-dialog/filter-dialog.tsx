@@ -3,7 +3,7 @@ import { Priority } from "../../db/schemas";
 import { MultiSelectWithTags } from "../multi-select";
 import { FilterDialogContentProps } from "./types";
 import { Dialog } from "../dialog";
-import { useFilter } from "@/app/hooks/useFilters";
+import { useFilter } from "../../hooks/";
 
 export const FilterDialogContent: React.FC<FilterDialogContentProps> = ({
   onApply,
@@ -12,7 +12,6 @@ export const FilterDialogContent: React.FC<FilterDialogContentProps> = ({
 }) => {
   const { filters } = useFilter();
 
-  // Reset state when the dialog opens
   const [selectedPriorities, setSelectedPriorities] = useState<string[]>(
     filters.priorities
   );
@@ -47,6 +46,7 @@ export const FilterDialogContent: React.FC<FilterDialogContentProps> = ({
         <div className="flex flex-row gap-4 items-center">
           <span className="font-medium">Hide Completed:</span>
           <input
+            data-testid="hide-completed-checkbox"
             type="checkbox"
             className="w-5 h-5"
             checked={hideCompleted}

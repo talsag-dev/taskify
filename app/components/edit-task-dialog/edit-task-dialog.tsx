@@ -2,7 +2,7 @@ import { editTask } from "../../actions";
 import { Dialog } from "../dialog";
 import { Priority } from "../../db/schemas";
 import { UseFormReturn } from "react-hook-form";
-import { EditTaskSchema } from "@/app/dto";
+import { EditTaskSchema } from "../../dto";
 
 export const EditDialog: React.FC<{
   isDialogOpen: boolean;

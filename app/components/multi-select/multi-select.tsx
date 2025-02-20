@@ -43,6 +43,7 @@ export function MultiSelectWithTags<T extends string | number>({
         className="w-full py-2 px-3 dark:bg-primary-dark bg-primary-light rounded-md ring-2 focus:outline-none capitalize"
         onChange={handleSelectChange}
         value=""
+        data-testid="select-priority-tasks"
       >
         <option value="" disabled>
           Select an option
